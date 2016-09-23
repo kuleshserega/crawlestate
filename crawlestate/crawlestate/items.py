@@ -17,3 +17,14 @@ class CentdataItem(scrapy.Item):
     building_type = scrapy.Field()
     gross_price = scrapy.Field()
     net_price = scrapy.Field()
+
+
+class MidlandiciItem(scrapy.Item):
+    date = scrapy.Field()
+    district = scrapy.Field()
+    buildling = scrapy.Field()
+    size = scrapy.Field()
+    ft_price = scrapy.Field()
+    op_type = scrapy.Field()
+    price = scrapy.Field()
+    data_source = scrapy.Field()

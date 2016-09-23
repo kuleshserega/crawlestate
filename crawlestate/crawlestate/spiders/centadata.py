@@ -72,7 +72,7 @@ class CentadataSpider(scrapy.Spider):
             next_exist = sel.xpath('//a[contains(text(), "Next Page")]')
 
             if next_exist:
-                response.meta['page_number'] = response.meta['page_number'] + 1
+                response.meta['page_number'] += 1
                 url = self.AREA_LINK % (
                     response.meta['type'],
                     response.meta['code'],

@@ -28,3 +28,13 @@ class MidlandiciItem(scrapy.Item):
     op_type = scrapy.Field()
     price = scrapy.Field()
     data_source = scrapy.Field()
+
+
+class EasyroommateItem(scrapy.Item):
+    location = scrapy.Field()
+    price = scrapy.Field()
+    image_url = scrapy.Field()
+    about_the_flatshare = scrapy.Field()
+    who_lives_there = scrapy.Field()
+    ideal_flatmates = scrapy.Field()
+    description = scrapy.Field()

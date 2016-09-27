@@ -1,0 +1,57 @@
+.panel-heading {
+    padding: 5px 15px;
+}
+
+.panel-footer {
+	padding: 1px 15px;
+	color: #A0A0A0;
+}
+
+.profile-img {
+	width: 96px;
+	height: 96px;
+	margin: 0 auto 10px;
+	display: block;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+}
+
+.copyright {
+    color: #999;
+    font-size: 13px;
+    margin: 0 auto;
+    padding: 10px;
+    text-align: center;
+}
+
+.messages {
+	position: absolute!important;
+	top: 25px;
+	right: 25px;
+	z-index: 99999;
+	opacity: 0.9;
+}
+.messages i {
+    font-size: 20px;
+    margin-right: 12px;
+}
+.messages span {
+    position: relative;
+    top: -3px;
+}
+
+.menu {
+    /*margin-left: 5px;*/
+    border-right: 1px solid grey;
+    padding: 10px;
+
+}
+
+.title{
+    border-bottom: solid 1px lightgray;
+}
+
+.content_data {
+    padding: 5px;
+}

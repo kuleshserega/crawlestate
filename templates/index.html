@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<div class="container-fluid">        
+        <div class="container-fluid">
+            <h3 class="title">Results storage</h3>
+        </div>
+        <table id="resultsTable" class="table table-striped">
+            <tr>
+                <th>ID</th>
+                <th>Spider name</th>
+                <th>Location</th>
+                <th>Year/Duration</th>
+                <th>Unit floor</th>
+                <th>Building age</th>
+                <th>Number of units</th>
+                <th>Building type</th>
+                <th>Gross price</th>
+                <th>Net price</th>
+            </tr>
+            {% for property in data %}
+            <tr>
+                <td>{{ property.id }}</td>
+                <td>{{ property.spider_name }}</td>
+                <td>{{ property.location }}</td>
+                <td>{{ property.year_duration }}</td>
+                <td>{{ property.unit_floor }}</td>
+                <td>{{ property.building_age }}</td>
+                <td>{{ property.number_of_units }}</td>
+                <td>{{ property.building_type }}</td>
+                <td>{{ property.gross_price }}</td>
+                <td>{{ property.net_price }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+</div>
+{% endblock %}

@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-
-# Define here the models for your scraped items
-#
-# See documentation in:
-# http://doc.scrapy.org/en/latest/topics/items.html
-
 import scrapy
 
 
@@ -21,7 +15,7 @@ class CentdataItem(scrapy.Item):
 
 class MidlandiciItem(scrapy.Item):
     date = scrapy.Field()
-    district = scrapy.Field()
+    location = scrapy.Field()
     buildling = scrapy.Field()
     size = scrapy.Field()
     ft_price = scrapy.Field()

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Spiders list{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+            <h3 class="title">Spiders list</h3>
+        </div>
+        <table id="resultsTable" class="table table-striped">
+            <tr>
+                <th>ID</th>
+                <th>Spider name</th>
+            </tr>
+            {% for spider in data %}
+            <tr>
+                <td>{{ spider.id }}</td>
+                <td>{{ spider.spider_name }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+{% endblock %}

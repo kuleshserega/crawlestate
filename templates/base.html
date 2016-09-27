@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+  {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <title>{% block title %}{% endblock %} - Estate Crawler</title>
+  {% endblock %}
+  {% block ext_js %}{% endblock ext_js %}
+  {% block ext_css %}{% endblock ext_css %}
+  </head>
+  <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">
+          <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+      </a>
+    </div>
+  </div>
+  </nav>
+
+  <body ">
+  <div class="row">
+      <div class="col-md-2 col-sm-2 col-xs-2 menu">
+          <ul id="left_menu" class="nav nav-pills nav-stacked">
+              <li id="index_page" role="presentation">
+                  <a href={{ url_for('index') }}>Home</a>
+              </li>
+              <li id="spiders_list" role="presentation">
+                  <a href={{ url_for('spiders') }}>Spiders list</a>
+              </li>
+          </ul>
+      </div>
+      <div class="col-md-10 col-sm-10 col-xs-10 content_data">
+          <div id="content">{% block content %}{% endblock %}</div>
+      </div>
+  </div>
+  <div class="copyright"> EstateCrawler © 2016 </div>
+  </body>
+</html>

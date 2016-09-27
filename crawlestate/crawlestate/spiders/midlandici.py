@@ -109,7 +109,7 @@ class MidlandiciSpider(scrapy.Spider):
                 data_source = data_source.replace(k, v)
 
             item['date'] = date.strip()
-            item['district'] = district.strip()
+            item['location'] = district.strip()
             item['buildling'] = buildling.strip()
             item['size'] = size.strip()
             item['ft_price'] = ft_price.strip()

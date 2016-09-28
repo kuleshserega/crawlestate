@@ -69,13 +69,14 @@ class EasyroommateSpider(scrapy.Spider):
             url = self.BASE_URL + result['ListingUrl']
             yield scrapy.Request(
                 url, self._get_about_place, meta={'item': item})
+            break
 
-        if jsonresponse['PageNumber'] < jsonresponse['TotalPages']:
-            self.frmdata["jsonFilter"]["pageNumber"] = \
-                jsonresponse['PageNumber'] + 1
-            yield scrapy.Request(
-                self.SEARCH_URL, self._get_properties, method="POST",
-                body=json.dumps(self.frmdata), headers=self.headers)
+        # if jsonresponse['PageNumber'] < jsonresponse['TotalPages']:
+        #     self.frmdata["jsonFilter"]["pageNumber"] = \
+        #         jsonresponse['PageNumber'] + 1
+        #     yield scrapy.Request(
+        #         self.SEARCH_URL, self._get_properties, method="POST",
+        #         body=json.dumps(self.frmdata), headers=self.headers)
 
     def _get_about_place(self, response):
         item = response.meta['item']
@@ -85,7 +86,7 @@ class EasyroommateSpider(scrapy.Spider):
             '//div[contains(@class, "detail__row")]/div/ul/li/text()'
         ).extract()
         for about in about_place:
-            item['about_the_flatshare'] += about
+            item['about_the_flatshare'] += about + ' '
 
         who_lives_there = response.xpath(
             '//div[contains(@data-test, "rd-wholivesthere")]/p/text()'

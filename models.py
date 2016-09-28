@@ -7,9 +7,8 @@ class Property(db.Model):
     spider_id = db.Column(db.ForeignKey('spider.id'))
     spider = db.relationship('Spider')
     # common fields
-    location = db.Column(db.String(40))
+    location = db.Column(db.String(255))
     # info related to Centdata spider
-    year_duration = db.Column(db.String(40))
     unit_floor = db.Column(db.String(40))
     building_age = db.Column(db.Integer)
     number_of_units = db.Column(db.Integer)

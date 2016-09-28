@@ -6,33 +6,64 @@
 {% block content %}
 <div class="container-fluid">        
         <div class="container-fluid">
-            <h3 class="title">Results storage</h3>
+            <h3 style="width: 300px;float: left;" class="title">Results storage</h3>
+            <div style="width: 300px;float: right;margin-top: 20px;">
+                {% if pagination.previous_page %}<a href="/results/{{ pagination.previous_page }}"><img width="20px" src="{{ url_for('static', filename='img/previous.jpeg') }}" /></a> {% endif %}
+                {{ pagination.current_page }}
+                {% if pagination.next_page %} <a href="/results/{{ pagination.next_page }}"><img width="20px" src="{{ url_for('static', filename='img/next.jpeg') }}" /></a>{% endif %}
+            </div>
         </div>
         <table id="resultsTable" class="table table-striped">
             <tr>
                 <th>ID</th>
                 <th>Spider name</th>
                 <th>Location</th>
-                <th>Year/Duration</th>
                 <th>Unit floor</th>
                 <th>Building age</th>
                 <th>Number of units</th>
                 <th>Building type</th>
                 <th>Gross price</th>
                 <th>Net price</th>
+
+                <th>Date</th>
+                <th>Buildling</th>
+                <th>Size</th>
+                <th>Price/ft</th>
+                <th>Operation type</th>
+                <th>Price</th>
+                <th>Data source</th>
+
+                <th>Image url</th>
+                <th>About the flatshare</th>
+                <th>Who lives there</th>
+                <th>Ideal flatmates</th>
+                <th>Description</th>
             </tr>
             {% for property in data %}
             <tr>
                 <td>{{ property.id }}</td>
                 <td>{{ property.spider_name }}</td>
                 <td>{{ property.location }}</td>
-                <td>{{ property.year_duration }}</td>
                 <td>{{ property.unit_floor }}</td>
                 <td>{{ property.building_age }}</td>
                 <td>{{ property.number_of_units }}</td>
                 <td>{{ property.building_type }}</td>
                 <td>{{ property.gross_price }}</td>
                 <td>{{ property.net_price }}</td>
+
+                <td>{{ property.date }}</td>
+                <td>{{ property.buildling }}</td>
+                <td>{{ property.size }}</td>
+                <td>{{ property.ft_price }}</td>
+                <td>{{ property.op_type }}</td>
+                <td>{{ property.price }}</td>
+                <td>{{ property.data_source }}</td>
+
+                <td>{% if property.image_url %}<a target="_blank" href="{{ property.image_url }}"><img width="20px" src="{{ url_for('static', filename='img/link.png') }}"></a>{% endif %}</td>
+                <td>{{ property.about_the_flatshare }}</td>
+                <td>{{ property.who_lives_there }}</td>
+                <td>{{ property.ideal_flatmates }}</td>
+                <td>{{ property.description }}</td>
             </tr>
             {% endfor %}
         </table>

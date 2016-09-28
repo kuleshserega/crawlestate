@@ -40,6 +40,8 @@ class CentadataSpider(scrapy.Spider):
                     area_link, self._get_area_table,
                     meta={'type': p[0], 'code': p[1], 'page_number': 0})
 
+            break
+
     def _get_area_table(self, response):
         item = CentdataItem()
 
@@ -68,14 +70,15 @@ class CentadataSpider(scrapy.Spider):
                 item['net_price'] = prop.xpath(np_tmpl).extract()[0]
 
                 yield item
+                break
 
             next_exist = sel.xpath('//a[contains(text(), "Next Page")]')
 
-            if next_exist:
-                response.meta['page_number'] += 1
-                url = self.AREA_LINK % (
-                    response.meta['type'],
-                    response.meta['code'],
-                    response.meta['page_number'])
-                yield scrapy.Request(
-                    url, self._get_area_table, meta=response.meta)
+            # if next_exist:
+            #     response.meta['page_number'] += 1
+            #     url = self.AREA_LINK % (
+            #         response.meta['type'],
+            #         response.meta['code'],
+            #         response.meta['page_number'])
+            #     yield scrapy.Request(
+            #         url, self._get_area_table, meta=response.meta)

@@ -9,14 +9,18 @@ class Property(db.Model):
     # common fields
     location = db.Column(db.String(255))
     # info related to Centdata spider
-    unit_floor = db.Column(db.String(40))
+    unit_floor = db.Column(db.String(255))
     building_age = db.Column(db.Integer)
     number_of_units = db.Column(db.Integer)
     building_type = db.Column(db.String(40))
-    gross_price = db.Column(db.String(40))
     net_price = db.Column(db.String(40))
+    net_area = db.Column(db.String(40))
+    net_per_foot = db.Column(db.String(40))
+    gross_price = db.Column(db.String(40))
+    gross_area = db.Column(db.String(40))
+    gross_per_foot = db.Column(db.String(40))
     # info related to Midlandici spider
-    date = db.Column(db.DateTime)
+    date = db.Column(db.Date)
     district = db.Column(db.String(100))
     buildling = db.Column(db.String(255))
     size = db.Column(db.String(40))

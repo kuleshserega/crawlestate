@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<div class="container-fluid">        
+        <div class="container-fluid">
+            <h3 style="width: 300px;float: left;" class="title">Centadata storage</h3>
+            <div style="width: 300px;float: right;margin-top: 20px;">
+                {% if pagination.previous_page %}<a href="{{ url_for('centadata',page=pagination.previous_page) }}"><img width="20px" src="{{ url_for('static', filename='img/previous.jpeg') }}" /></a> {% endif %}
+                Page {{ pagination.current_page }}
+                {% if pagination.next_page %} <a href="{{ url_for('centadata',page=pagination.next_page) }}"><img width="20px" src="{{ url_for('static', filename='img/next.jpeg') }}" /></a>{% endif %}
+            </div>
+        </div>
+        <table id="resultsTable" class="table table-striped">
+            <tr>
+                <th>ID</th>
+                <th>Spider name</th>
+                <th>Location</th>
+                <th>Unit floor</th>
+                <th>Building age</th>
+                <th>Number of units</th>
+                <th>Building type</th>
+                <th>Gross price</th>
+                <th>Gross area</th>
+                <th>Gross p.f.</th>
+                <th>Net price</th>
+                <th>Net area</th>
+                <th>Net p.f.</th>
+            </tr>
+            {% for property in data %}
+            <tr>
+                <td>{{ property.id }}</td>
+                <td>{{ property.spider_name }}</td>
+                <td>{{ property.location }}</td>
+                <td>{{ property.unit_floor }}</td>
+                <td>{{ property.building_age }}</td>
+                <td>{{ property.number_of_units }}</td>
+                <td>{{ property.building_type }}</td>
+                <td>{{ property.gross_price }}</td>
+                <td>{{ property.gross_area }}</td>
+                <td>{{ property.gross_per_foot }}</td>
+                <td>{{ property.net_price }}</td>
+                <td>{{ property.net_area }}</td>
+                <td>{{ property.net_per_foot }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+</div>
+{% endblock %}

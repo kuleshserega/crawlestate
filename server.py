@@ -1,5 +1,3 @@
-from math import ceil
-
 from flask import Flask, render_template, url_for, redirect, \
     session, request, jsonify
 
@@ -7,6 +5,8 @@ from settings import SQLALCHEMY_DATABASE_URI
 
 from models import db
 from models import Property, Spider
+
+from helpers import pagination
 
 
 app = Flask(__name__, template_folder='templates')
@@ -22,26 +22,15 @@ db.init_app(app)
 COUNT_PER_PAGE = 10
 
 
-@app.route('/results/', defaults={'page': 1})
-@app.route('/results/<int:page>')
-def index(page):
+@app.route('/centadata/', defaults={'page': 1})
+@app.route('/centadata/<int:page>')
+def centadata(page):
     plist = []
-    total_count = Property.query.count()
-    pagination = {}
-    pagination['previous_page'] = page - 1
-    if not pagination['previous_page']:
-        pagination['previous_page'] = None
+    total_count = Property.query.filter_by(spider_id=1).count()
+    pagination_params = pagination(page, total_count, COUNT_PER_PAGE)
 
-    pagination['current_page'] = page
-
-    pagination['next_page'] = None
-    print total_count
-    pages_count = ceil(float(total_count)/COUNT_PER_PAGE)
-    print 'pages_count', pages_count
-    if pages_count > page:
-        pagination['next_page'] = page + 1
-
-    results = Property.query.paginate(page, COUNT_PER_PAGE, False).items
+    results = Property.query.filter_by(spider_id=1).paginate(
+        page, COUNT_PER_PAGE, False).items
     if results:
         for result in results:
             plist.append({
@@ -53,8 +42,32 @@ def index(page):
                 'number_of_units': result.number_of_units,
                 'building_type': result.building_type,
                 'gross_price': result.gross_price,
+                'gross_area': result.gross_area,
+                'gross_per_foot': result.gross_per_foot,
                 'net_price': result.net_price,
+                'net_area': result.net_area,
+                'net_per_foot': result.net_per_foot,
+            })
 
+    return render_template(
+        'centadata.html', data=plist, pagination=pagination_params)
+
+
+@app.route('/midlandici/', defaults={'page': 1})
+@app.route('/midlandici/<int:page>')
+def midlandici(page):
+    plist = []
+    total_count = Property.query.filter_by(spider_id=2).count()
+    pagination_params = pagination(page, total_count, COUNT_PER_PAGE)
+
+    results = Property.query.filter_by(spider_id=2).paginate(
+        page, COUNT_PER_PAGE, False).items
+    if results:
+        for result in results:
+            plist.append({
+                'id': result.id,
+                'spider_name': result.spider.name,
+                'location': result.location,
                 'date': result.date,
                 'buildling': result.buildling,
                 'size': result.size,
@@ -62,7 +75,28 @@ def index(page):
                 'op_type': result.op_type,
                 'price': result.price,
                 'data_source': result.data_source,
+            })
 
+    return render_template(
+        'midlandici.html', data=plist, pagination=pagination_params)
+
+
+@app.route('/easyroommate/', defaults={'page': 1})
+@app.route('/easyroommate/<int:page>')
+def easyroommate(page):
+    plist = []
+    total_count = Property.query.filter_by(spider_id=3).count()
+    pagination_params = pagination(page, total_count, COUNT_PER_PAGE)
+
+    results = Property.query.filter_by(spider_id=3).paginate(
+        page, COUNT_PER_PAGE, False).items
+    if results:
+        for result in results:
+            plist.append({
+                'id': result.id,
+                'spider_name': result.spider.name,
+                'location': result.location,
+                'price': result.price,
                 'image_url': result.image_url,
                 'about_the_flatshare': result.about_the_flatshare,
                 'who_lives_there': result.who_lives_there,
@@ -70,11 +104,12 @@ def index(page):
                 'description': result.description,
             })
 
-    return render_template('index.html', data=plist, pagination=pagination)
+    return render_template(
+        'easyroommate.html', data=plist, pagination=pagination_params)
 
 
-@app.route('/spiders')
-def spiders():
+@app.route('/')
+def index():
     slist = []
     results = Spider.query.all()
     if results:

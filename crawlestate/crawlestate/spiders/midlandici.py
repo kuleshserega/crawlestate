@@ -63,12 +63,10 @@ class MidlandiciSpider(scrapy.Spider):
         for url_rent in url_rent_list:
             yield scrapy.Request(
                 url_rent, self._get_property_items, meta={'current_page': 0})
-            break
 
         for url_sell in url_sell_list:
             yield scrapy.Request(
                 url_sell, self._get_property_items, meta={'current_page': 0})
-            break
 
     def _get_url_lists(self, districts, offset=1):
         url_rent_list = []
@@ -120,27 +118,26 @@ class MidlandiciSpider(scrapy.Spider):
             item['data_source'] = data_source.strip()
 
             yield item
-            break
 
         current_page = response.meta['current_page']
 
-        # num_records = response.xpath(
-        #     '//div[@id="result_pagination"]/@data-num-record').extract()
-        # if num_records:
-        #     results_count = int(num_records[0])
-        #     if results_count > current_page*20:
-        #         response.meta['current_page'] += 1
-        #         offset = response.meta['current_page']*20 + 1
-        #         url_rent_list, url_sell_list = self._get_url_lists(
-        #             self.dlist, offset)
-        #         for url_rent in url_rent_list:
-        #             yield scrapy.Request(
-        #                 url_rent,
-        #                 self._get_property_items,
-        #                 meta=response.meta)
+        num_records = response.xpath(
+            '//div[@id="result_pagination"]/@data-num-record').extract()
+        if num_records:
+            results_count = int(num_records[0])
+            if results_count > current_page*20:
+                response.meta['current_page'] += 1
+                offset = response.meta['current_page']*20 + 1
+                url_rent_list, url_sell_list = self._get_url_lists(
+                    self.dlist, offset)
+                for url_rent in url_rent_list:
+                    yield scrapy.Request(
+                        url_rent,
+                        self._get_property_items,
+                        meta=response.meta)
 
-        #         for url_sell in url_sell_list:
-        #             yield scrapy.Request(
-        #                 url_sell,
-        #                 self._get_property_items,
-        #                 meta=response.meta)
+                for url_sell in url_sell_list:
+                    yield scrapy.Request(
+                        url_sell,
+                        self._get_property_items,
+                        meta=response.meta)

@@ -28,7 +28,11 @@ class CrawlestatePipeline(object):
                 number_of_units=int(item['number_of_units']),
                 building_type=item['building_type'],
                 gross_price=item['gross_price'],
+                gross_area=item['gross_area'],
+                gross_per_foot=item['gross_per_foot'],
                 net_price=item['net_price'],
+                net_area=item['net_area'],
+                net_per_foot=item['net_per_foot'],
             )
         elif spider.name == 'midlandici':
             prop = models.Property(

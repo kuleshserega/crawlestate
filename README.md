@@ -1,6 +1,6 @@
 Run spiders:
     centadata
-        - scrapy crawl centadata -a city_code='HK'
+        - scrapy crawl centadata
     midlandici
         - scrapy crawl midlandici
     easyroommate

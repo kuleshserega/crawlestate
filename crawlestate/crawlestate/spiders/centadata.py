@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 import re
+import random
 
 import scrapy
 
 from crawlestate.items import CentdataItem
+from crawlestate.settings import USER_AGENT_LIST
 
 
 class CentadataSpider(scrapy.Spider):
     name = "centadata"
     allowed_domains = ["centadata.com"]
+    city_code = None
+    city_list = ['HK', 'KL', 'NE', 'NW']
 
     START_URL = 'http://www1.centadata.com/' \
         'epaddresssearch1.aspx?type=district16&code=%s'
@@ -19,14 +23,18 @@ class CentadataSpider(scrapy.Spider):
     APARTMENTS_URL = 'http://www1.centadata.com/eptest.aspx?' \
         'type=%s&code=%s&info=%s&page=%s'
 
-    def __init__(self, city_code=None, city_area=None, *args, **kwargs):
+    def __init__(self, city_code=None, *args, **kwargs):
         super(CentadataSpider, self).__init__(*args, **kwargs)
         self.city_code = city_code
-        self.city_area = city_area
 
     def start_requests(self):
-        url = self.START_URL % self.city_code
-        yield scrapy.Request(url)
+        if self.city_code:
+            url = self.START_URL % self.city_code
+            yield scrapy.Request(url, headers=self._get_headers())
+        else:
+            for code in self.city_list:
+                url = self.START_URL % code
+                yield scrapy.Request(url, headers=self._get_headers())
 
     def parse(self, response):
         sel = response.xpath('//table[contains(@class, "tbreg1")]')
@@ -41,7 +49,8 @@ class CentadataSpider(scrapy.Spider):
                 area_link = self.AREA_LINK % link_params
                 yield scrapy.Request(
                     area_link, self._get_area_table,
-                    meta={'type': p[0], 'code': p[1], 'page_number': 0})
+                    meta={'type': p[0], 'code': p[1], 'page_number': 0},
+                    headers=self._get_headers())
 
     def _get_area_table(self, response):
         item = CentdataItem()
@@ -70,7 +79,8 @@ class CentadataSpider(scrapy.Spider):
                     apartmens_params = (p[0], p[1], p[2], p[3])
                     url = self.APARTMENTS_URL % apartmens_params
                     yield scrapy.Request(
-                        url, self._get_apartmens, meta={'item': item})
+                        url, self._get_apartmens, meta={'item': item},
+                        headers=self._get_headers())
 
             next_exist = sel.xpath('//a[contains(text(), "Next Page")]')
 
@@ -81,7 +91,8 @@ class CentadataSpider(scrapy.Spider):
                     response.meta['code'],
                     response.meta['page_number'])
                 yield scrapy.Request(
-                    url, self._get_area_table, meta=response.meta)
+                    url, self._get_area_table, meta=response.meta,
+                    headers=self._get_headers())
 
     def _replace_non_numeric(self, repl_str):
         res = re.sub("[^0-9]", "", repl_str)
@@ -89,6 +100,12 @@ class CentadataSpider(scrapy.Spider):
             return 0
 
         return re.sub("[^0-9]", "", repl_str)
+
+    def _get_user_agent(self):
+        return random.choice(USER_AGENT_LIST)
+
+    def _get_headers(self):
+        return {'User-Agent': self._get_user_agent()}
 
     def _get_apartmens(self, response):
         item = response.meta['item']

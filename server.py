@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, \
     session, request, jsonify
 
-from settings import SQLALCHEMY_DATABASE_URI
+from flask_settings import SQLALCHEMY_DATABASE_URI
 
 from models import db
 from models import Property, Spider
@@ -127,4 +127,4 @@ if __name__ == '__main__':
     os.environ['DEBUG'] = 'true'
     with app.app_context():
         db.create_all()
-        app.run(host='0.0.0.0', port=8002)
+        app.run(host='0.0.0.0', port=8008)

@@ -10,8 +10,8 @@ class Property(db.Model):
     location = db.Column(db.String(255))
     # info related to Centdata spider
     unit_floor = db.Column(db.String(255))
-    building_age = db.Column(db.Integer)
-    number_of_units = db.Column(db.Integer)
+    building_age = db.Column(db.String(40))
+    number_of_units = db.Column(db.String(40))
     building_type = db.Column(db.String(40))
     net_price = db.Column(db.String(40))
     net_area = db.Column(db.String(40))

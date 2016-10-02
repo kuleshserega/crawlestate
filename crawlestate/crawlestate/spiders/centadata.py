@@ -30,11 +30,13 @@ class CentadataSpider(scrapy.Spider):
     def start_requests(self):
         if self.city_code:
             url = self.START_URL % self.city_code
-            yield scrapy.Request(url, headers=self._get_headers())
+            yield scrapy.Request(
+                url, headers=self._get_headers(), meta={'city': code})
         else:
             for code in self.city_list:
                 url = self.START_URL % code
-                yield scrapy.Request(url, headers=self._get_headers())
+                yield scrapy.Request(
+                    url, headers=self._get_headers(), meta={'city': code})
 
     def parse(self, response):
         sel = response.xpath('//table[contains(@class, "tbreg1")]')
@@ -47,9 +49,17 @@ class CentadataSpider(scrapy.Spider):
                     params[0]).group(1).replace('\'', '')[1:-1].split(',')
                 link_params = (p[0], p[1], '0')
                 area_link = self.AREA_LINK % link_params
+                district = area.xpath(
+                    'tr/td[contains(@class, "tdreg1cname")]/span/text()').extract()
+                response.meta['district'] = ''
+                if district:
+                    response.meta['district'] = district[0]
+                response.meta['type'] = p[0]
+                response.meta['code'] = p[1]
+                response.meta['page_number'] = 0
                 yield scrapy.Request(
                     area_link, self._get_area_table,
-                    meta={'type': p[0], 'code': p[1], 'page_number': 0},
+                    meta=response.meta,
                     headers=self._get_headers())
 
     def _get_area_table(self, response):
@@ -59,7 +69,9 @@ class CentadataSpider(scrapy.Spider):
 
         if sel:
             for prop in sel:
-                item['location'] = prop.xpath(
+                ct_dstrct = \
+                    response.meta['city'] + ', ' + response.meta['district'] + ', '
+                item['location'] = ct_dstrct + prop.xpath(
                     'td[contains(@class, "tdscp1addr")]/text()').extract()[0]
 
                 ba_tmpl = 'td[contains(@class, "tdscp1bldgage")]/text()'

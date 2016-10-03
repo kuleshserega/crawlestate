@@ -31,7 +31,8 @@ class CentadataSpider(scrapy.Spider):
         if self.city_code:
             url = self.START_URL % self.city_code
             yield scrapy.Request(
-                url, headers=self._get_headers(), meta={'city': code})
+                url, headers=self._get_headers(),
+                meta={'city': self.city_code})
         else:
             for code in self.city_list:
                 url = self.START_URL % code
@@ -50,7 +51,8 @@ class CentadataSpider(scrapy.Spider):
                 link_params = (p[0], p[1], '0')
                 area_link = self.AREA_LINK % link_params
                 district = area.xpath(
-                    'tr/td[contains(@class, "tdreg1cname")]/span/text()').extract()
+                    'tr/td[contains(@class, "tdreg1cname")]/span/text()'
+                ).extract()
                 response.meta['district'] = ''
                 if district:
                     response.meta['district'] = district[0]
@@ -70,7 +72,8 @@ class CentadataSpider(scrapy.Spider):
         if sel:
             for prop in sel:
                 ct_dstrct = \
-                    response.meta['city'] + ', ' + response.meta['district'] + ', '
+                    response.meta['city'] + ', ' + \
+                    response.meta['district'] + ', '
                 item['location'] = ct_dstrct + prop.xpath(
                     'td[contains(@class, "tdscp1addr")]/text()').extract()[0]
 

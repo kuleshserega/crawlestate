@@ -29,8 +29,8 @@ def centadata(page):
     total_count = Property.query.filter_by(spider_id=1).count()
     pagination_params = pagination(page, total_count, COUNT_PER_PAGE)
 
-    results = Property.query.filter_by(spider_id=1).paginate(
-        page, COUNT_PER_PAGE, False).items
+    results = Property.query.filter_by(spider_id=1).order_by(
+        Property.id.desc()).paginate(page, COUNT_PER_PAGE, False).items
     if results:
         for result in results:
             plist.append({
@@ -60,8 +60,8 @@ def midlandici(page):
     total_count = Property.query.filter_by(spider_id=2).count()
     pagination_params = pagination(page, total_count, COUNT_PER_PAGE)
 
-    results = Property.query.filter_by(spider_id=2).paginate(
-        page, COUNT_PER_PAGE, False).items
+    results = Property.query.filter_by(spider_id=2).order_by(
+        Property.id.desc()).paginate(page, COUNT_PER_PAGE, False).items
     if results:
         for result in results:
             plist.append({
@@ -88,8 +88,8 @@ def easyroommate(page):
     total_count = Property.query.filter_by(spider_id=3).count()
     pagination_params = pagination(page, total_count, COUNT_PER_PAGE)
 
-    results = Property.query.filter_by(spider_id=3).paginate(
-        page, COUNT_PER_PAGE, False).items
+    results = Property.query.filter_by(spider_id=3).order_by(
+        Property.id.desc()).paginate(page, COUNT_PER_PAGE, False).items
     if results:
         for result in results:
             plist.append({

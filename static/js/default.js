@@ -14,18 +14,26 @@ $(document).ready(function(){
     $.get(base_scrapyd_url + "listjobs.json?project=crawlestate", function(data){
         console.log("Data: " + data);
         var html = '';
-        var status = ['running', 'finished', 'pending'];
+        var status = ['running', 'pending', 'finished'];
         for (var i=0; i < status.length; i++) {
             for(var j=0; j < data[status[i]].length; j++) {
                 var btn = '';
                 if (status[i] == 'pending' || status[i] == 'running'){
                     btn = '<a href="' + data[status[i]][j]['id'] + '" class="cancel btn btn-primary">Cancel</a>';
                 }
+                var start_time = '';
+                if (data[status[i]][j]['start_time']){
+                    start_time = data[status[i]][j]['start_time'].substring(0,19);
+                }
+                var end_time = '';
+                if (data[status[i]][j]['end_time']){
+                    end_time = data[status[i]][j]['end_time'].substring(0,19);
+                }
                 html += '<tr id="' + data[status[i]][j]['id'] + '">\
                         <td>' + data[status[i]][j]['id'] + '</td>\
                         <td>' + data[status[i]][j]['spider'] + '</td>\
-                        <td>' + data[status[i]][j]['start_time'] + '</td>\
-                        <td>' + data[status[i]][j]['end_time'] + '</td>\
+                        <td>' + start_time + '</td>\
+                        <td>' + end_time + '</td>\
                         <td>' + status[i] + '</td>\
                         <td>' + btn + '</td>\
                     </tr>';

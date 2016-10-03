@@ -1,2 +1,10 @@
 *.pyc
 /.env
+build/
+dbs/
+eggs/
+items/
+logs/
+project.egg-info/
+setup.py
+twistd.pid

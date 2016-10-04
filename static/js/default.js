@@ -8,7 +8,7 @@
 //         }, 4000);
 //     });
 // });
-var base_scrapyd_url = 'http://172.16.205.1:6800/';
+var base_scrapyd_url = 'http://localhost:6800/';
 
 $(document).ready(function(){
     var update_spiders_table = function(){

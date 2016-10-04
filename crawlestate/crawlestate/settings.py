@@ -74,10 +74,10 @@ USER_AGENT_LIST = [
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-DOWNLOADER_MIDDLEWARES = {
-    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
-    'crawlestate.middlewares.ProxyMiddleware': 100,
-}
+# DOWNLOADER_MIDDLEWARES = {
+#     'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
+#     'crawlestate.middlewares.ProxyMiddleware': 100,
+# }
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html

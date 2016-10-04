@@ -8,10 +8,10 @@
 {% endblock ext_js %}
 {% block content %}
     <div class="container-fluid">
-            <h3 class="title">Spiders list</h3>
+            <h3 class="title">Spiders job list</h3>
         </div>
         <table id="resultsTable" class="table table-striped">
-            <tr>
+<!--            <tr>
                 <th>ID</th>
                 <th>Spider name</th>
                 <th>Start time</th>
@@ -19,7 +19,7 @@
                 <th>Status</th>
                 <th></th>
             </tr>
-<!--             {% for spider in data %}
+            {% for spider in data %}
             <tr sname="{{ spider.spider_name }}">
                 <td>{{ spider.id }}</td>
                 <td>{{ spider.spider_name }}</td>

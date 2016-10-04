@@ -8,20 +8,20 @@ from crawlestate.items import EasyroommateItem
 
 class EasyroommateSpider(scrapy.Spider):
     name = "easyroommate"
-    allowed_domains = ["easyroommate.com", "maps.googleapis.com"]
+    allowed_domains = ["easyroommate.com.hk", "maps.googleapis.com"]
     START_URL = 'https://maps.googleapis.com/maps/api/place/' \
         'autocomplete/json?input=%s&types=geocode&' \
-        'key=AIzaSyBywB08oedi9vzk-ZzM-3owyKaMnTvHV_k'
+        'key=AIzaSyBeF6KI5XHtLjQKd9O6lRu5H-tNesa6BVU'
 
-    BASE_URL = 'http://www.easyroommate.com'
+    BASE_URL = 'http://www.easyroommate.com.hk'
 
     LOCATION_URL = 'https://maps.googleapis.com/maps/api/place/' \
-        'details/json?placeid=%s&key=AIzaSyBywB08oedi9vzk-ZzM-3owyKaMnTvHV_k'
+        'details/json?placeid=%s&key=AIzaSyBeF6KI5XHtLjQKd9O6lRu5H-tNesa6BVU'
 
-    SEARCH_URL = 'http://www.easyroommate.com/Search/' \
-        'DynamicRoomSearch/GetResultsByRadius'
+    SEARCH_URL = 'http://www.easyroommate.com.hk/' \
+        'Search/DynamicRoomSearch/GetResultsByRadius'
 
-    def __init__(self, search_address=None, *args, **kwargs):
+    def __init__(self, search_address='Hong Kong', *args, **kwargs):
         super(EasyroommateSpider, self).__init__(*args, **kwargs)
         self.search_address = search_address
         self.frmdata = {
@@ -32,7 +32,7 @@ class EasyroommateSpider(scrapy.Spider):
             },
             "locationId": "0"
         }
-        self.headers = {'content-type': 'application/json'}
+        self.headers = {'Content-type': 'application/json'}
 
     def start_requests(self):
         url = self.START_URL % self.search_address

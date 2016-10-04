@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
@@ -6,6 +8,7 @@ class Property(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     spider_id = db.Column(db.ForeignKey('spider.id'))
     spider = db.relationship('Spider')
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
     # common fields
     location = db.Column(db.String(255))
     # info related to Centdata spider

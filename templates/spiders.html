@@ -4,6 +4,7 @@
     {{ super() }}
 {% endblock %}
 {% block ext_js %}
+<script type="text/javascript">var base_scrapyd_url = '{{ scrapyd_url }}';</script>
 <script type="text/javascript" src="{{ url_for('static', filename='js/default.js') }}"></script>
 {% endblock ext_js %}
 {% block content %}

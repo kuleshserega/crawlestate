@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, \
     session, request, jsonify
 
-from flask_settings import SQLALCHEMY_DATABASE_URI
+from flask_settings import SQLALCHEMY_DATABASE_URI, BASE_SCRAPYD_URL_AJAX
 
 from models import db
 from models import Property, Spider
@@ -119,7 +119,9 @@ def index():
                 'spider_name': result.name,
             })
 
-    return render_template('spiders.html', data=slist)
+    scrapyd_url = BASE_SCRAPYD_URL_AJAX
+
+    return render_template('spiders.html', data=slist, scrapyd_url=scrapyd_url)
 
 
 if __name__ == '__main__':

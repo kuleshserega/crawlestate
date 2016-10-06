@@ -7,6 +7,7 @@ DB_PASSWD = os.environ.get('DB_PASSWD', 'dbpswrd')
 DB_HOST = os.environ.get('DB_HOST', '172.17.42.1')
 
 BASE_SCRAPYD_URL = 'http://localhost:6800/%s'
+BASE_SCRAPYD_URL_AJAX = 'http://localhost:6800/'
 RUN_SPIDER = 'schedule.json'
 
 SQLALCHEMY_DATABASE_URI = 'postgresql://%s:%s@%s/%s' % (

@@ -8,9 +8,11 @@
         <div class="container-fluid">
             <h3 style="width: 300px;float: left;" class="title">Easyroommate storage</h3>
             <div style="width: 300px;float: right;margin-top: 20px;">
+                {% if pagination.current_page > 1 %}<a href="{{ url_for('easyroommate') }}"><img width="20px" src="{{ url_for('static', filename='img/first.png') }}" /></a> {% endif %}
                 {% if pagination.previous_page %}<a href="{{ url_for('easyroommate',page=pagination.previous_page) }}"><img width="20px" src="{{ url_for('static', filename='img/previous.jpeg') }}" /></a> {% endif %}
                 Page {{ pagination.current_page }}
                 {% if pagination.next_page %} <a href="{{ url_for('easyroommate',page=pagination.next_page) }}"><img width="20px" src="{{ url_for('static', filename='img/next.jpeg') }}" /></a>{% endif %}
+                {% if pagination.pages_count %}<a href="{{ url_for('easyroommate',page=pagination.pages_count) }}"><img width="20px" src="{{ url_for('static', filename='img/last.png') }}" /></a> {% endif %}
             </div>
         </div>
         <table id="resultsTable" class="table table-striped">

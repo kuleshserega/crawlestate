@@ -21,6 +21,8 @@ db.init_app(app)
 
 COUNT_PER_PAGE = 10
 
+scrapyd_url = BASE_SCRAPYD_URL_AJAX
+
 
 @app.route('/centadata/', defaults={'page': 1})
 @app.route('/centadata/<int:page>')
@@ -50,7 +52,8 @@ def centadata(page):
             })
 
     return render_template(
-        'centadata.html', data=plist, pagination=pagination_params)
+        'centadata.html', data=plist,
+        pagination=pagination_params, scrapyd_url=scrapyd_url)
 
 
 @app.route('/midlandici/', defaults={'page': 1})
@@ -78,7 +81,8 @@ def midlandici(page):
             })
 
     return render_template(
-        'midlandici.html', data=plist, pagination=pagination_params)
+        'midlandici.html', data=plist,
+        pagination=pagination_params, scrapyd_url=scrapyd_url)
 
 
 @app.route('/easyroommate/', defaults={'page': 1})
@@ -105,7 +109,8 @@ def easyroommate(page):
             })
 
     return render_template(
-        'easyroommate.html', data=plist, pagination=pagination_params)
+        'easyroommate.html', data=plist,
+        pagination=pagination_params, scrapyd_url=scrapyd_url)
 
 
 @app.route('/')
@@ -118,8 +123,6 @@ def index():
                 'id': result.id,
                 'spider_name': result.name,
             })
-
-    scrapyd_url = BASE_SCRAPYD_URL_AJAX
 
     return render_template('spiders.html', data=slist, scrapyd_url=scrapyd_url)
 

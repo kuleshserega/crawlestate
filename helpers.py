@@ -15,5 +15,6 @@ def pagination(page, total_count, per_page):
 
     if pages_count > page:
         pagination['next_page'] = page + 1
+        pagination['pages_count'] = pages_count
 
     return pagination

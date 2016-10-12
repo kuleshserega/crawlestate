@@ -11,7 +11,7 @@ from flask_settings import DB_NAME, DB_USER, DB_PASSWD, DB_HOST
 
 
 def remove_old_data():
-    dt = (datetime.datetime.utcnow() - datetime.timedelta(hours=2)).strftime(
+    dt = (datetime.datetime.utcnow() - datetime.timedelta(hours=7)).strftime(
         '%Y-%m-%d %H:%M:%S')
     print 'DATE TIME:', dt
     sql_request = "DELETE FROM property where date_created < '%s'" % dt

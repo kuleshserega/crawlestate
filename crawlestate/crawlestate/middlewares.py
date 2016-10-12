@@ -27,6 +27,7 @@ class ProxyMiddleware(object):
     def process_request(self, request, spider):
         # Set the location of the proxy
         request.meta['proxy'] = self._get_proxy()
+        # print 'PROXY:', request.meta['proxy']
 
         # Use the following lines if your proxy requires authentication
         # proxy_user_pass = "USERNAME:PASSWORD"

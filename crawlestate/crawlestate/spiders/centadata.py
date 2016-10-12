@@ -5,7 +5,7 @@ import random
 import scrapy
 
 from crawlestate.items import CentdataItem
-from crawlestate.settings import USER_AGENT_LIST
+from crawlestate.settings import USER_AGENT_LIST, REPEAT_COUNTER
 
 
 class CentadataSpider(scrapy.Spider):
@@ -40,6 +40,17 @@ class CentadataSpider(scrapy.Spider):
                     url, headers=self._get_headers(), meta={'city': code})
 
     def parse(self, response):
+        repeat_counter = 0
+        if 'repeat_counter' in response.meta:
+            repeat_counter = response.meta['repeat_counter']
+
+        if response.status == '302' and repeat_counter < REPEAT_COUNTER:
+            url = response.request.headers['Referer']
+            meta = response.meta
+            meta['repeat_counter'] = repeat_counter
+            yield scrapy.Request(
+                url, headers=self._get_headers(), meta=meta)
+
         sel = response.xpath('//table[contains(@class, "tbreg1")]')
 
         for area in sel:
@@ -65,6 +76,18 @@ class CentadataSpider(scrapy.Spider):
                     headers=self._get_headers())
 
     def _get_area_table(self, response):
+        repeat_counter = 0
+        if 'repeat_counter' in response.meta:
+            repeat_counter = response.meta['repeat_counter']
+
+        if response.status == '302' and repeat_counter < REPEAT_COUNTER:
+            url = response.request.headers['Referer']
+            meta = response.meta
+            meta['repeat_counter'] = repeat_counter
+            yield scrapy.Request(
+                self._get_area_table, url,
+                headers=self._get_headers(), meta=meta)
+
         item = CentdataItem()
 
         sel = response.xpath('//table[contains(@class, "tbscp1")]/tr')
@@ -123,6 +146,18 @@ class CentadataSpider(scrapy.Spider):
         return {'User-Agent': self._get_user_agent()}
 
     def _get_apartmens(self, response):
+        repeat_counter = 0
+        if 'repeat_counter' in response.meta:
+            repeat_counter = response.meta['repeat_counter']
+
+        if response.status == '302' and repeat_counter < REPEAT_COUNTER:
+            url = response.request.headers['Referer']
+            meta = response.meta
+            meta['repeat_counter'] = repeat_counter
+            yield scrapy.Request(
+                self._get_apartmens, url,
+                headers=self._get_headers(), meta=meta)
+
         item = response.meta['item']
 
         sel = response.xpath(

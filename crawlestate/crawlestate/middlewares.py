@@ -2,11 +2,11 @@ import base64
 import random
 
 PROXY_LIST = [
-    "https://199.200.58.247:27999",
-    "https://38.72.72.12:27999",
-    "https://38.72.81.186:27999",
-    "https://38.72.74.165:27999",
-    "https://38.72.89.187:27999",
+    "https://199.200.57.230:27999",
+    "https://38.72.85.224:27999",
+    "https://38.72.94.35:27999",
+    "https://162.250.176.192:27999",
+    "https://38.72.90.13:27999",
     # "http://58.176.46.248:80",
     # "http://146.0.73.14:80",
     # "http://45.32.235.247:3128",
@@ -27,12 +27,11 @@ class ProxyMiddleware(object):
     def process_request(self, request, spider):
         # Set the location of the proxy
         request.meta['proxy'] = self._get_proxy()
-        print 'PROXY:', request.meta['proxy']
 
         # Use the following lines if your proxy requires authentication
-        proxy_user_pass = "USERNAME:PASSWORD"
+        # proxy_user_pass = "USERNAME:PASSWORD"
         # setup basic authentication for the proxy
-        encoded_user_pass = base64.encodestring(proxy_user_pass)
+        # encoded_user_pass = base64.encodestring(proxy_user_pass)
         # request.headers['Proxy-Authorization'] = 'Basic ' + encoded_user_pass
 
     def _get_proxy(self):

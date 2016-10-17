@@ -10,6 +10,8 @@ BASE_SCRAPYD_URL = 'http://localhost:6800/%s'
 BASE_SCRAPYD_URL_AJAX = 'http://localhost:6800/'
 RUN_SPIDER = 'schedule.json'
 
+BASE_SITE_URL = 'http://localhost:8008/'
+
 SQLALCHEMY_DATABASE_URI = 'postgresql://%s:%s@%s/%s' % (
     DB_USER,
     DB_PASSWD,

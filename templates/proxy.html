@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Proxy list{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="container-fluid">
+        <h3 class="title">Add proxy</h3>
+        <form action="{{ url_for('proxy') }}" method="POST">
+            <input type="text" name="type" placeholder="Proxy type" />
+            <input type="text" name="ip" placeholder="Proxy ip" />
+            <input type="text" name="port" placeholder="Proxy port" />
+            <input class="btn btn-primary" type="submit" name="addproxy" value="Add proxy" />
+        </form>
+    </div>
+    <div class="container-fluid">
+        <h3 class="title">Proxy list</h3>
+    </div>
+    <table id="proxyTable" class="table table-striped">
+        <tr>
+            <th>ID</th>
+            <th>TYPE</th>
+            <th>IP</th>
+            <th>PORT</th>
+            <th>STATUS</th>
+            <th></th>
+        </tr>
+        {% for proxy in data %}
+        <tr>
+            <td>{{ proxy.id }}</td>
+            <td>{{ proxy.ptype }}</td>
+            <td>{{ proxy.ip }}</td>
+            <td>{{ proxy.port }}</td>
+            <td class="{% if proxy.status == 'Works' %}green{% elif proxy.status == 'Dead' %}red{% endif %}">{{ proxy.status }}</td>
+            <td><a class="btn btn-danger" href="{{ base_url }}proxy/delete/{{ proxy.id }}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

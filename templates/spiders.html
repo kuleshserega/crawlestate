@@ -5,30 +5,13 @@
 {% endblock %}
 {% block ext_js %}
 <script type="text/javascript">var base_scrapyd_url = '{{ scrapyd_url }}';</script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/default.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/scrapyd_interaction.js') }}"></script>
 {% endblock ext_js %}
 {% block content %}
+<div class="container-fluid">
     <div class="container-fluid">
-            <h3 class="title">Spiders job list</h3>
-        </div>
-        <table id="resultsTable" class="table table-striped">
-<!--            <tr>
-                <th>ID</th>
-                <th>Spider name</th>
-                <th>Start time</th>
-                <th>End time</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-            {% for spider in data %}
-            <tr sname="{{ spider.spider_name }}">
-                <td>{{ spider.id }}</td>
-                <td>{{ spider.spider_name }}</td>
-                <td class="start_day"></td>
-                <td class="end_day"></td>
-                <td class="status"></td>
-                <td><a href="" class="btn btn-primary" action="run">Run</a></td>
-            </tr>
-            {% endfor %} -->
-        </table>
+        <h3 class="title">Spiders job list</h3>
+    </div>
+    <table id="resultsTable" class="table table-striped"></table>
+</div>
 {% endblock %}

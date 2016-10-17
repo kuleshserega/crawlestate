@@ -1,12 +1,14 @@
 from flask import Flask, render_template, url_for, redirect, \
-    session, request, jsonify
+    session, request, jsonify, flash
 
-from flask_settings import SQLALCHEMY_DATABASE_URI, BASE_SCRAPYD_URL_AJAX
+from flask_settings import SQLALCHEMY_DATABASE_URI, BASE_SCRAPYD_URL_AJAX, \
+    BASE_SITE_URL
 
 from models import db
-from models import Property, Spider
+from models import Property, Spider, Proxy
 
 from helpers import pagination
+from jinja_filters import message_alert_glyph, messages_alert_tags
 
 
 app = Flask(__name__, template_folder='templates')
@@ -18,6 +20,9 @@ app.config.update({
     'SQLALCHEMY_TRACK_MODIFICATIONS': True,
 })
 db.init_app(app)
+
+app.jinja_env.filters['glyph_class'] = message_alert_glyph
+app.jinja_env.filters['tag_class'] = messages_alert_tags
 
 COUNT_PER_PAGE = 10
 
@@ -111,6 +116,45 @@ def easyroommate(page):
     return render_template(
         'easyroommate.html', data=plist,
         pagination=pagination_params, scrapyd_url=scrapyd_url)
+
+
+@app.route('/proxy', methods=['GET', 'POST'])
+@app.route('/proxy/<operation>/<int:proxy_id>')
+def proxy(operation=None, proxy_id=None):
+    if operation and proxy_id and operation == 'delete':
+        try:
+            rm_proxy = Proxy.query.get(proxy_id)
+            db.session.delete(rm_proxy)
+            db.session.commit()
+
+            flash(u'Proxy removed', 'success')
+        except Exception:
+            flash(u'Proxy does not exist', 'error')
+
+    if request.method == 'POST':
+        proxy = Proxy(
+            ptype=request.values.get('type', None),
+            ip=request.values.get('ip', None),
+            port=request.values.get('port', None))
+        db.session.add(proxy)
+        db.session.commit()
+
+        flash(u'Proxy added', 'success')
+
+    proxy_list = []
+    results = Proxy.query.all()
+    if results:
+        for result in results:
+            proxy_list.append({
+                'id': result.id,
+                'ptype': result.ptype,
+                'ip': result.ip,
+                'port': result.port,
+                'status': result.status,
+            })
+
+    return render_template(
+        'proxy.html', data=proxy_list, base_url=BASE_SITE_URL)
 
 
 @app.route('/')

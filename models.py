@@ -43,3 +43,11 @@ class Property(db.Model):
 class Spider(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40))
+
+
+class Proxy(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ptype = db.Column(db.String(7))
+    ip = db.Column(db.String(20))
+    port = db.Column(db.String(7))
+    status = db.Column(db.String(20), default='Works')

@@ -6,10 +6,23 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/default.js') }}"></script>
     <title>{% block title %}{% endblock %} - Estate Crawler</title>
   {% endblock %}
   {% block ext_js %}{% endblock ext_js %}
   {% block ext_css %}{% endblock ext_css %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-0 col-xs-6 col-xs-offset-0 messages">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category|tag_class }}">
+          <i class="fa {{ category|glyph_class }}"></i>
+          <span>{{ message }}</span>
+        </div>
+      {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
   </head>
   <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -34,8 +47,11 @@
             <li id="index_page" role="presentation">
                 <a href={{ url_for('easyroommate') }}>Easyroommate</a>
             </li>
+            <li id="proxy_list" role="presentation">
+                <a href={{ url_for('proxy') }}>Proxy list</a>
+            </li>
             <li id="spiders_list" role="presentation">
-                <a href={{ url_for('index') }}>Spiders list</a>
+                <a href={{ url_for('index') }}>Spiders job list</a>
             </li>
             <li id="logs_and_items" role="presentation">
                 <a href={{ scrapyd_url }} target='_blank'>Logs and items</a>

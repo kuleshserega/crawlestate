@@ -9,6 +9,8 @@ DB_HOST = os.environ.get('DB_HOST', '127.0.0.1')
 BASE_SCRAPYD_URL = 'http://localhost:6800/%s'
 BASE_SCRAPYD_URL_AJAX = 'http://localhost:6800/'
 
+BASE_SITE_URL = 'http://localhost:8008/'
+
 SQLALCHEMY_DATABASE_URI = 'postgresql://%s:%s@%s/%s' % (
     DB_USER,
     DB_PASSWD,

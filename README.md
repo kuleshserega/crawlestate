@@ -31,3 +31,16 @@ Deploy scrapyd
         runner      = scrapyd.runner
         application = scrapyd.app.application
         launcher    = scrapyd.launcher.Launcher
+
+Run scrapyd from crawlestate as deamon:
+    scrapyd &
+
+Run project under supervisor:
+    /supervisor.conf
+
+Add cron tasks:
+    10 2 * * 6   root /home/estate/crawlestate/.env/bin/python /home/estate/crawlestate/cronjob/rmold.py
+    10 1 * * 6   root /home/estate/crawlestate/.env/bin/python /home/estate/crawlestate/cronjob/runspider.py centadata
+    30 1 * * 6   root /home/estate/crawlestate/.env/bin/python /home/estate/crawlestate/cronjob/runspider.py midlandici
+    50 1 * * 6   root /home/estate/crawlestate/.env/bin/python /home/estate/crawlestate/cronjob/runspider.py easyroommate
+    * 7 * * *   root /home/estate/crawlestate/.env/bin/python /home/estate/crawlestate/cronjob/checkproxy.py

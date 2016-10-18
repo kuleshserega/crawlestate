@@ -10,9 +10,13 @@ from helpers import get_proxy_from_db
 
 
 class ProxyMiddleware(object):
+    PROXY_LIST = []
+
     # overwrite process request
     def process_request(self, request, spider):
-        self.PROXY_LIST = get_proxy_from_db()
+        proxy_list = get_proxy_from_db(proxy_status='Works')
+        for k, proxy in proxy_list.iteritems():
+            self.PROXY_LIST.append(proxy)
 
         # Set the location of the proxy
         request.meta['proxy'] = self._get_proxy()

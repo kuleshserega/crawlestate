@@ -6,6 +6,6 @@ eggs/
 items/
 logs/
 project.egg-info/
-/setup.py
-/twistd.pid
+crawlestate/setup.py
+crawlestate/twistd.pid
 /settings_local.py

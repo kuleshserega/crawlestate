@@ -30,7 +30,7 @@ def send_email(proxy_list):
     import smtplib
     from email.mime.text import MIMEText
     me = 'nickl.zubarev@gmail.com'
-    you = 'kulesh_serega@mail.ru'
+    you = 'lucian.lacau@yahoo.com'
     smtp_server = 'smtp.gmail.com'
 
     msg_proxy_list = ''

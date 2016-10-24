@@ -43,4 +43,4 @@ Add cron tasks:
     10 1 * * 6   root /home/estate/crawlestate/.env/bin/python /home/estate/crawlestate/cronjob/runspider.py centadata
     30 1 * * 6   root /home/estate/crawlestate/.env/bin/python /home/estate/crawlestate/cronjob/runspider.py midlandici
     50 1 * * 6   root /home/estate/crawlestate/.env/bin/python /home/estate/crawlestate/cronjob/runspider.py easyroommate
-    * 7 * * *   root /home/estate/crawlestate/.env/bin/python /home/estate/crawlestate/cronjob/checkproxy.py
+    10 7 * * *   root /home/estate/crawlestate/.env/bin/python /home/estate/crawlestate/cronjob/checkproxy.py

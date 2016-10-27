@@ -154,7 +154,8 @@ def proxy(operation=None, proxy_id=None):
             })
 
     return render_template(
-        'proxy.html', data=proxy_list, base_url=BASE_SITE_URL)
+        'proxy.html', data=proxy_list,
+        base_url=BASE_SITE_URL, scrapyd_url=scrapyd_url)
 
 
 @app.route('/')

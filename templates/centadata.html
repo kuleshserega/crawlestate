@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_site_pages.html" %}
 {% block title %}Home{% endblock %}
 {% block head %}
     {{ super() }}
@@ -13,6 +13,7 @@
                 Page {{ pagination.current_page }}
                 {% if pagination.next_page %} <a href="{{ url_for('centadata',page=pagination.next_page) }}"><img width="20px" src="{{ url_for('static', filename='img/next.jpeg') }}" /></a>{% endif %}
                 {% if pagination.pages_count %}<a href="{{ url_for('centadata',page=pagination.pages_count) }}"><img width="20px" src="{{ url_for('static', filename='img/last.png') }}" /></a> {% endif %}
+                <a style="float: right;" class="btn btn-primary" href="{{ url_for('download',spider_id=1) }}">Download CSV</a>
             </div>
         </div>
         <table id="resultsTable" class="table table-striped">

@@ -1,11 +1,13 @@
-from flask import Flask, render_template, url_for, redirect, \
-    session, request, jsonify, flash
+from flask import Flask, render_template, url_for, redirect, request, flash
+from flask.ext.login import LoginManager, login_user, logout_user, \
+    login_required
+from flask.ext import excel
 
 from flask_settings import SQLALCHEMY_DATABASE_URI, BASE_SCRAPYD_URL_AJAX, \
     BASE_SITE_URL
 
 from models import db
-from models import Property, Spider, Proxy
+from models import Property, Spider, Proxy, User
 
 from helpers import pagination
 from jinja_filters import message_alert_glyph, messages_alert_tags
@@ -14,6 +16,10 @@ from jinja_filters import message_alert_glyph, messages_alert_tags
 app = Flask(__name__, template_folder='templates')
 app.debug = True
 app.secret_key = 'c0derunner'
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 app.config.update({
     'SQLALCHEMY_DATABASE_URI': SQLALCHEMY_DATABASE_URI,
@@ -29,8 +35,80 @@ COUNT_PER_PAGE = 10
 scrapyd_url = BASE_SCRAPYD_URL_AJAX
 
 
+@app.route('/download/<int:spider_id>')
+def download(spider_id=1):
+    results = Property.query.filter_by(spider_id=spider_id)
+    data = []
+    if results:
+        if spider_id == 1:
+            data.append(
+                ("ID", "Spider name", "Location", "Unit floor", "Building age",
+                 "Number of units", "Building type", "Gross price",
+                 "Gross area", "Gross p.f.", "Net price", "Net area",
+                 "Net p.f.")
+            )
+        for result in results:
+            if spider_id == 1:
+                data.append(
+                    (result.id, result.spider.name, result.location,
+                     result.unit_floor, result.building_age,
+                     result.gross_price, result.gross_area,
+                     result.gross_per_foot, result.net_price,
+                     result.net_area, result.net_per_foot)
+                )
+            # data.append(result.id, result.spider.name, result.location,
+            #     'unit_floor': result.unit_floor,
+            #     'building_age': result.building_age,
+            #     'number_of_units': result.number_of_units,
+            #     'building_type': result.building_type,
+            #     'gross_price': result.gross_price,
+            #     'gross_area': result.gross_area,
+            #     'gross_per_foot': result.gross_per_foot,
+            #     'net_price': result.net_price,
+            #     'net_area': result.net_area,
+            #     'net_per_foot': result.net_per_foot,
+            # })
+
+    output = excel.make_response_from_array(data, 'csv')
+    output.headers["Content-Disposition"] = "attachment; filename=export.csv"
+    output.headers["Content-type"] = "text/csv"
+    return output
+
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+
+    email = request.form['email']
+    password = request.form['password']
+    registered_user = User.query.filter_by(
+        email=email, password=password).first()
+
+    if registered_user is None:
+        flash(u'Username or Password is invalid', 'error')
+        return redirect(url_for('login'))
+
+    login_user(registered_user)
+    flash(u'Logged in successfully', 'success')
+
+    return redirect(url_for('index'))
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+
 @app.route('/centadata/', defaults={'page': 1})
 @app.route('/centadata/<int:page>')
+@login_required
 def centadata(page):
     plist = []
     total_count = Property.query.filter_by(spider_id=1).count()
@@ -63,6 +141,7 @@ def centadata(page):
 
 @app.route('/midlandici/', defaults={'page': 1})
 @app.route('/midlandici/<int:page>')
+@login_required
 def midlandici(page):
     plist = []
     total_count = Property.query.filter_by(spider_id=2).count()
@@ -92,6 +171,7 @@ def midlandici(page):
 
 @app.route('/easyroommate/', defaults={'page': 1})
 @app.route('/easyroommate/<int:page>')
+@login_required
 def easyroommate(page):
     plist = []
     total_count = Property.query.filter_by(spider_id=3).count()
@@ -120,6 +200,7 @@ def easyroommate(page):
 
 @app.route('/proxy', methods=['GET', 'POST'])
 @app.route('/proxy/<operation>/<int:proxy_id>')
+@login_required
 def proxy(operation=None, proxy_id=None):
     if operation and proxy_id and operation == 'delete':
         try:
@@ -159,6 +240,7 @@ def proxy(operation=None, proxy_id=None):
 
 
 @app.route('/')
+@login_required
 def index():
     slist = []
     results = Spider.query.all()

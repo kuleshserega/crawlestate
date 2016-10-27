@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block menu %}
+<div class="col-md-2 col-sm-2 col-xs-2 menu">
+  <ul id="left_menu" class="nav nav-pills nav-stacked">
+    <li id="index_page" role="presentation">
+        <a href={{ url_for('centadata') }}>Centadata</a>
+    </li>
+    <li id="index_page" role="presentation">
+        <a href={{ url_for('midlandici') }}>Midlandici</a>
+    </li>
+    <li id="index_page" role="presentation">
+        <a href={{ url_for('easyroommate') }}>Easyroommate</a>
+    </li>
+    <li id="proxy_list" role="presentation">
+        <a href={{ url_for('proxy') }}>Proxy list</a>
+    </li>
+    <li id="spiders_list" role="presentation">
+        <a href={{ url_for('index') }}>Spiders job list</a>
+    </li>
+    <li id="logs_and_items" role="presentation">
+        <a href={{ scrapyd_url }} target='_blank'>Logs and items</a>
+    </li>
+    <li id="logout" role="presentation">
+        <a href={{ url_for('logout') }}>Logout</a>
+    </li>
+  </ul>
+</div>
+{% endblock %}
+{% block content_wrapper %}
+<div class="col-md-10 col-sm-10 col-xs-10 content_data">
+    <div id="content">{% block content %}{% endblock %}</div>
+</div>
+{% endblock %}

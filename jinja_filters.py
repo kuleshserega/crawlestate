@@ -6,7 +6,8 @@ def message_alert_glyph(value):
         ('error', 'fui-cross-circle'),
         ('info', 'fui-info-circle'),
         ('success', 'fui-check-circle'),
-        ('warning', 'fui-alert-circle')
+        ('warning', 'fui-alert-circle'),
+        ('message', 'fui-cross-circle')
     ]
 
     for search, replace in tags:
@@ -23,7 +24,8 @@ def messages_alert_tags(value):
         ('error', 'danger'),
         ('info', 'info'),
         ('success', 'success'),
-        ('warning', 'warning')
+        ('warning', 'warning'),
+        ('message', 'danger')
     ]
 
     for search, replace in tags:

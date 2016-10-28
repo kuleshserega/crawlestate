@@ -38,41 +38,57 @@ scrapyd_url = BASE_SCRAPYD_URL_AJAX
 @app.route('/download/<int:spider_id>')
 def download(spider_id=1):
     results = Property.query.filter_by(spider_id=spider_id)
-    data = []
+    data = _get_csv_headers(spider_id)
     if results:
-        if spider_id == 1:
-            data.append(
-                ("ID", "Spider name", "Location", "Unit floor", "Building age",
-                 "Number of units", "Building type", "Gross price",
-                 "Gross area", "Gross p.f.", "Net price", "Net area",
-                 "Net p.f.")
-            )
         for result in results:
             if spider_id == 1:
                 data.append(
-                    (result.id, result.spider.name, result.location,
-                     result.unit_floor, result.building_age,
+                    (result.id, result.spider.name, result.location.strip(),
+                     result.unit_floor, result.building_age.strip(),
                      result.gross_price, result.gross_area,
                      result.gross_per_foot, result.net_price,
                      result.net_area, result.net_per_foot)
                 )
-            # data.append(result.id, result.spider.name, result.location,
-            #     'unit_floor': result.unit_floor,
-            #     'building_age': result.building_age,
-            #     'number_of_units': result.number_of_units,
-            #     'building_type': result.building_type,
-            #     'gross_price': result.gross_price,
-            #     'gross_area': result.gross_area,
-            #     'gross_per_foot': result.gross_per_foot,
-            #     'net_price': result.net_price,
-            #     'net_area': result.net_area,
-            #     'net_per_foot': result.net_per_foot,
-            # })
+            elif spider_id == 2:
+                data.append(
+                    (result.id, result.spider.name, result.location.strip(),
+                     result.date, result.buildling, result.size,
+                     result.ft_price, result.op_type, result.price,
+                     result.data_source)
+                )
+            elif spider_id == 3:
+                data.append(
+                    (result.id, result.spider.name, result.location.strip(),
+                     result.price, result.image_url,
+                     result.about_the_flatshare, result.who_lives_there,
+                     result.ideal_flatmates, result.description)
+                )
 
     output = excel.make_response_from_array(data, 'csv')
     output.headers["Content-Disposition"] = "attachment; filename=export.csv"
     output.headers["Content-type"] = "text/csv"
     return output
+
+
+def _get_csv_headers(spider_id=1):
+    if spider_id == 1:
+        return [
+            ("ID", "Spider name", "Location", "Unit floor", "Building age",
+             "Number of units", "Building type", "Gross price",
+             "Gross area", "Gross p.f.", "Net price", "Net area",
+             "Net p.f.")
+        ]
+    elif spider_id == 2:
+        return [
+            ("ID", "Spider name", "Location", "Date", "Building",
+             "Size", "Price/ft", "Operation type", "Price", "Data source")
+        ]
+    elif spider_id == 3:
+        return [
+            ("ID", "Spider name", "Location", "Price/ft", "Image url",
+             "About the flatshare", "Who lives there", "Ideal flatmates",
+             "Description")
+        ]
 
 
 @login_manager.user_loader

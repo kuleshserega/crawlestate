@@ -19,8 +19,10 @@ class ProxyMiddleware(object):
             self.PROXY_LIST.append(proxy)
 
         # Set the location of the proxy
-        request.meta['proxy'] = self._get_proxy()
-        print request.meta['proxy']
+        proxy = self._get_proxy()
+        if proxy:
+            request.meta['proxy'] = self._get_proxy()
+            print request.meta['proxy']
 
         # Use the following lines if your proxy requires authentication
         # proxy_user_pass = "USERNAME:PASSWORD"

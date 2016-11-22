@@ -31,4 +31,7 @@ class ProxyMiddleware(object):
         # request.headers['Proxy-Authorization'] = 'Basic ' + encoded_user_pass
 
     def _get_proxy(self):
-        return random.choice(self.PROXY_LIST)
+        if self.PROXY_LIST:
+            return random.choice(self.PROXY_LIST)
+        else:
+            return None
